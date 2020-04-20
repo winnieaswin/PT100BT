@@ -13,6 +13,7 @@ char t_char [8];
 char h_char [8];
 char dallas_t_char [8];
 int count =0;
+String BTID = "ESP32_B001";
 
 BluetoothSerial SerialBT;
 
@@ -47,7 +48,7 @@ void setup() {
   dht.begin();
   SerialBT.register_callback(callback);
 
-  if(!SerialBT.begin("ESP32_B001")){
+  if(!SerialBT.begin(BTID)){
     Serial.println("An error occurred initializing Bluetooth");
   }else{
     Serial.println("Bluetooth initialized");
@@ -66,7 +67,7 @@ void loop() {
   // put your main code here, to run repeatedly:
 
     digitalWrite(ledPin, HIGH);   // turn the LED on (HIGH is the voltage level)
-    delay(2000);
+    delay(15000);
     // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
     float h = dht.readHumidity();
     dtostrf(h,2, 2,h_char); // convertion float to string
@@ -119,11 +120,14 @@ void loop() {
         //SerialBT.print(",");
         //SerialBT.print(count);
         //SerialBT.print(",");
-        SerialBT.print(";");
+        
+        SerialBT.print("  ;  ");
+        SerialBT.print(BTID);
+        SerialBT.print("  ;  ");
         SerialBT.print(dallas_t);
-        SerialBT.print(";");
+        SerialBT.print("  ;  ");
         SerialBT.print(t);
-        SerialBT.print(";");
+        SerialBT.print("  ;  ");
         SerialBT.println(h);
   
 
@@ -131,5 +135,5 @@ void loop() {
     }
     
     digitalWrite(ledPin,  LOW);
-    delay(5000);
+    delay(10000);
 }
